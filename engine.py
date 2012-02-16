@@ -1,8 +1,7 @@
 import json
-from commands import Commands
 
 class Engine:
-	def __index__(self, player, screen):
+	def __init__(self, player, screen):
 		self.player = player
 		self.screen = screen
 		self.menus = None
