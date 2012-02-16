@@ -5,6 +5,5 @@ class Engine:
 		self.menus = None
 		
 	def load_menus(self):
-		json_data = json.load(open('data/menus.cfg'))
-		self.menus = json_data['menus']
+		self.menus = json.load(open('data/menus.cfg'))
 		
