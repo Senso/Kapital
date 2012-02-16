@@ -2,8 +2,8 @@ import curses
 from screen import Screen
 from engine import Engine
 
-def main():
-	screen = Screen()
+def main(stdscr):
+	screen = Screen(stdscr)
 	screen.title_menu(game.menus['title_menu'])
 	
 
