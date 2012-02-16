@@ -1,3 +1,4 @@
+import sys
 import json
 
 class Engine:
@@ -15,7 +16,7 @@ class Engine:
 			cmd()
 			
 	def log(self, str):
-		f = open('cap.log', 'wa')
+		f = open('cap.log', 'a')
 		f.write(str + '\n')
 		f.close()
 		
@@ -26,7 +27,6 @@ class Engine:
 		self.log('callback ' + callback)
 		
 	def quit(self):
-		import sys
 		sys.exit(0)
 		
 	def new_game(self):

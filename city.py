@@ -1,3 +1,5 @@
+import json
+import random
 
 class City:
 	def __init__(self):
@@ -6,6 +8,15 @@ class City:
 		
 	def generate_name(self):
 		pass
+	
+	def generate_districts(self):
+		tmp_d = random.randrange(10,20)
+		while tmp_d > 1:
+			d = District()
+			name = d.generate_name()
+			if name not in self.districts.keys():
+				self.districts[name] = d
+				tmp_d -= 1
 	
 
 class District:
@@ -17,4 +28,7 @@ class District:
 		self.poverty_level = 0.0
 		
 	def generate_name(self):
-		pass
+		names = json.load(open('data/districts.cfg'))
+		return random.choice(names)
+		
+		
