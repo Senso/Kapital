@@ -13,11 +13,17 @@ class Engine:
 		cmd = getattr(self, cb)
 		if cmd:
 			cmd()
+			
+	def log(self, str):
+		f = open('cap.log', 'w+')
+		f.write(str + '\n')
+		f.close()
 		
 	def start(self):
 		self.screen.set_borders()
 		
 		callback = self.screen.display_menu(self.menus['title_menu'])
+		self.log('callback ' + callback)
 		
 	def quit(self):
 		import sys
@@ -29,11 +35,3 @@ class Engine:
 		# initialize player
 		# show main city view menu and start main loop
 		print 'new_game placeholder'
-
-	def catch_key(self, opts):
-		# depending on menu, process keys and run callbacks
-		keys = opts.keys()
-		while True:
-			key = self.screen.getch()
-			if key in keys:
-				return keys[key][1]
