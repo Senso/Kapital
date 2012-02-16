@@ -8,11 +8,12 @@ class Screen:
 		self.screen.resize(self.height, self.width)
 		self.screen.refresh()
 	
-	def catch_key(self):
+	def catch_key(self, opts):
 		# depending on menu, process keys and run callbacks
 		while True:
 			key = self.screen.getkey()
-			return key
+			if key in opts.keys():
+				return opt[key][1]
 				
 	def set_borders(self):
 		self.screen.box()
@@ -31,7 +32,7 @@ class Screen:
 			offset += 1
 		self.screen.refresh()
 		
-		callback = self.catch_key()
+		callback = self.catch_key(menu['options'])
 		return callback
 		
 	def main_loop(self):

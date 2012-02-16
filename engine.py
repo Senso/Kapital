@@ -15,7 +15,7 @@ class Engine:
 			cmd()
 			
 	def log(self, str):
-		f = open('cap.log', 'w+')
+		f = open('cap.log', 'wa')
 		f.write(str + '\n')
 		f.close()
 		
