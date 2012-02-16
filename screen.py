@@ -14,6 +14,9 @@ class Screen:
 			if key in keys:
 				return keys[key][1]
 				
+	def set_borders(self):
+		self.screen.box()
+				
 	def display_menu(self, menu):
 		# get the title menu from the config
 		# display it

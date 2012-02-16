@@ -7,6 +7,7 @@ def main(stdscr):
 	# main game initialization
 	game = Engine(Player(), Screen(stdscr))
 	game.preload_menus()
+	
 	game.start()
 	
 

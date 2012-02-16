@@ -16,6 +16,8 @@ class Engine:
 			cmd()
 		
 	def start(self):
+		self.screen.set_borders()
+		
 		callback = self.screen.display_menu(self.menus['title_menu'])
 		
 	def quit(self):
