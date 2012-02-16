@@ -5,7 +5,6 @@ class Engine:
 		self.player = player
 		self.screen = screen
 		self.menus = None
-		self.cmds = Commands()
 		
 	def preload_menus(self):
 		self.menus = json.load(open('data/menus.cfg'))
