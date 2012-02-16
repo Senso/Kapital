@@ -1,4 +1,3 @@
-import curses
 
 class Screen:
 	def __init__(self, stdscr):

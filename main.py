@@ -1,4 +1,4 @@
-
+import curses
 from screen import Screen
 from engine import Engine
 
