@@ -13,7 +13,7 @@ class Screen:
 		while True:
 			key = self.screen.getkey()
 			if key in opts.keys():
-				return opt[key][1]
+				return opts[key][1]
 				
 	def set_borders(self):
 		self.screen.box()
