@@ -10,7 +10,6 @@ class Screen:
 	
 	def catch_key(self):
 		# depending on menu, process keys and run callbacks
-		keys = opts.keys()
 		while True:
 			key = self.screen.getkey()
 			return key
