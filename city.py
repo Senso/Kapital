@@ -1,4 +1,5 @@
 import json
+from math import floor
 from random import randint, choice, randrange
 
 class City:
@@ -10,21 +11,40 @@ class City:
 		pass
 	
 	def generate_districts(self):
-		tmp_d = randrange(10,20)
+		num_districts = randrange(10,20)
 		while tmp_d > 1:
 			d = District()
-			
 			name = d.generate_name()
 			if name not in self.districts.keys():
 				self.districts[name] = d
-				tmp_d -= 1
+				num_districts -= 1
+				
+		# Determine income level, based on the following totally non-scientific
+		# formula: 25% poor, 60% middle-class, 15% rich (rounded down, bias middle-class)
+		poor = int(floor(float(num_districts) * 0.25))
+		middle = int(floor(float(num_districts) * 0.60))
+		rich = int(floor(float(num_districts) * 0.15))
+		middle += num_districts - (poor + middle + rich)
 	
+		ds = self.districts.keys()
+		for dist in ds[:poor]:
+			self.districts[dist].generate_income('poor')
+		for dist in ds[poor:poor+middle]:
+			self.districts[dist].generate_income('middle')
+		for dist in ds[poor+middle:]:
+			self.districts[dist].generate_income('rich')
+			
 
 class District:
 	def __init__(self):
 		self.name = ''
 		self.households = 0
 		self.median_income = 0
+		
+	def initialize(self):
+		self.generate_households()
+		self.generate_income()
+
 		
 	def generate_name(self):
 		names = json.load(open('data/districts.cfg'))

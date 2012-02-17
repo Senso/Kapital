@@ -1,10 +1,13 @@
 import sys
 import json
 
+from city import City
+
 class Engine:
 	def __init__(self, player, screen):
 		self.player = player
 		self.screen = screen
+		self.city = None
 		self.menus = None
 		
 	def preload_menus(self):
@@ -34,4 +37,6 @@ class Engine:
 		# generate districts
 		# initialize player
 		# show main city view menu and start main loop
-		print 'new_game placeholder'
+		self.city = City()
+		self.city.generate_name()
+		self.city.generate_districts()
