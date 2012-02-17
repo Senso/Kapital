@@ -8,7 +8,12 @@ class City:
 		self.districts = {}
 		
 	def generate_name(self):
-		pass
+		names = json.load(open('data/cities.cfg'))
+		self.pre1 = choice(names['prefix'])
+		self.pre2 = choice(names['prefix'])
+		self.suf = choice(names['suffix'])
+		self.name = self.pre1.capitalize() + self.pre2 + self.suf
+		return self.name
 	
 	def generate_districts(self):
 		num_districts = randrange(10,20)
@@ -45,7 +50,6 @@ class District:
 		self.generate_households()
 		self.generate_income()
 
-		
 	def generate_name(self):
 		names = json.load(open('data/districts.cfg'))
 		self.name = choice(names)
