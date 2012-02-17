@@ -20,6 +20,7 @@ class City:
 		while num_districts > 1:
 			d = District()
 			name = d.generate_name()
+			d.generate_households()
 			if name not in self.districts.keys():
 				self.districts[name] = d
 				num_districts -= 1
@@ -45,10 +46,6 @@ class District:
 		self.name = ''
 		self.households = 0
 		self.median_income = 0
-		
-	def initialize(self):
-		self.generate_households()
-		self.generate_income()
 
 	def generate_name(self):
 		names = json.load(open('data/districts.cfg'))
