@@ -39,7 +39,7 @@ class Engine:
 		
 	def main_loop(self):
 		while True:
-			key = self.screen.catch_key(self.menus[player.current_menu]['options'])
+			key = self.screen.catch_key(self.menus[self.player.current_menu]['options'])
 			self.process_callback(key)
 		
 	def new_game(self):
