@@ -28,6 +28,7 @@ class Engine:
 		
 		callback = self.screen.display_menu(self.menus['title_menu'])
 		self.log('callback ' + callback)
+		self.process_callback(callback)
 		
 	def quit(self):
 		sys.exit(0)

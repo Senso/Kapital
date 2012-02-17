@@ -17,7 +17,7 @@ class City:
 	
 	def generate_districts(self):
 		num_districts = randrange(10,20)
-		while tmp_d > 1:
+		while num_districts > 1:
 			d = District()
 			name = d.generate_name()
 			if name not in self.districts.keys():
