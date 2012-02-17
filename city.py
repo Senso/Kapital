@@ -52,7 +52,7 @@ class District:
 
 	def generate_name(self):
 		names = json.load(open('data/districts.cfg'))
-		self.name = choice(names)
+		self.name = choice(names['district_names'])
 		return self.name
 		
 	def generate_households(self):
