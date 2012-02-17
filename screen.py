@@ -25,6 +25,13 @@ class Screen:
 		self.set_borders()
 		self.screen.addstr(2, 2, menu['title'])
 		offset = 3
+		
+		for d in menu['data'].items():
+			label = d[0]
+			val = d[1][0]
+			self.screen.addstr(offset + 1, 5, "%s: %s" % (label, data))
+			offset += 1
+			
 		for option in menu['options'].items():
 			o_key = option[0]
 			o_str = option[1][0]

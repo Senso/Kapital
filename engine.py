@@ -1,5 +1,6 @@
 import sys
 import json
+from string import Template
 
 from city import City
 
@@ -13,9 +14,20 @@ class Engine:
 	def preload_menus(self):
 		self.menus = json.load(open('data/menus.cfg'))
 		
-	def show_menu(self, menu):
+	def show_menu(self, menu, data):
+		# ("Districts", ["{districts_info}", "multiline"])
+		if self.menus[menu]['data'] is not None:
+			tpl_data = self.menus[menu]['data']
+			for i in tpl_data.items():
+				b = Template(i[1][0])
+				tpl_data[i[0]] = b.substitute(data)
+		else:
+			tpl_data = {}
+				
+		end_result = {'data': tpl_data, 'options': self.menus[menu]['options']}
+
 		self.player.current_menu = menu
-		self.screen.display_menu(self.menus[menu])
+		self.screen.display_menu(end_result)
 		
 	def process_callback(self, cb):
 		self.log('callback: ' + cb)
@@ -31,8 +43,6 @@ class Engine:
 	def start(self):
 		self.show_menu('title_menu')
 		self.main_loop()
-		#callback = self.screen.display_menu(self.menus['title_menu'])
-		#self.process_callback(callback)
 		
 	def quit(self):
 		sys.exit(0)
@@ -43,16 +53,16 @@ class Engine:
 			self.process_callback(key)
 		
 	def new_game(self):
-		# generate City name
-		# generate districts
-		# initialize player
-		# show main city view menu and start main loop
 		self.city = City()
 		self.city.generate_name()
 		self.log('city name: ' + self.city.name)
 		self.city.generate_districts()
 		for d in self.city.districts.values():
 			self.log("%s: %s" % (d.name, str(d.households) + ', ' + str(d.median_income)))
-			
-		self.show_menu('city_overview_menu')
-		#self.main_loop()
+		
+		data = {
+			'city_name': self.city.name,
+			'total_households': self.city.total_households(),
+			'districts_info': ''
+		}
+		self.show_menu('city_overview_menu', data)

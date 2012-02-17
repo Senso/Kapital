@@ -1,6 +1,7 @@
 import json
 from math import floor
 from random import randint, choice, randrange
+from curses import ascii
 
 class City:
 	def __init__(self):
@@ -46,7 +47,6 @@ class City:
 		for d in self.districts.values():
 			t_h += d.households
 		return t_h
-			
 
 class District:
 	def __init__(self):
