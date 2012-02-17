@@ -63,6 +63,7 @@ class District:
 			self.median_income = 30000 + randint(5000, 10000) + randint(2000, 7000)
 		elif level == 'rich':
 			self.median_income = 60000 + randint(5000, 10000) + randint(10000, 40000)
+		self.log("%s: (%s) %s" % (self.name, level, self.median_income))
 		return self.median_income
 		
 		
