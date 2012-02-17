@@ -25,14 +25,15 @@ class City:
 				self.districts[name] = d
 				num_districts -= 1
 				
+		ds = self.districts.keys()
+		
 		# Determine income level, based on the following totally non-scientific
 		# formula: 25% poor, 60% middle-class, 15% rich (rounded down, bias middle-class)
-		poor = int(floor(float(num_districts) * 0.25))
-		middle = int(floor(float(num_districts) * 0.60))
-		rich = int(floor(float(num_districts) * 0.15))
+		poor = int(floor(float(len(ds)) * 0.25))
+		middle = int(floor(float(len(ds)) * 0.60))
+		rich = int(floor(float(len(ds)) * 0.15))
 		middle += num_districts - (poor + middle + rich)
 	
-		ds = self.districts.keys()
 		for dist in ds[:poor]:
 			self.districts[dist].generate_income('poor')
 		for dist in ds[poor:poor+middle]:
