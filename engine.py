@@ -14,6 +14,7 @@ class Engine:
 		self.menus = json.load(open('data/menus.cfg'))
 		
 	def process_callback(self, cb):
+		self.log('callback: ' + cb)
 		cmd = getattr(self, cb)
 		if cmd:
 			cmd()
@@ -27,7 +28,6 @@ class Engine:
 		self.screen.set_borders()
 		
 		callback = self.screen.display_menu(self.menus['title_menu'])
-		self.log('callback ' + callback)
 		self.process_callback(callback)
 		
 	def quit(self):
@@ -40,4 +40,6 @@ class Engine:
 		# show main city view menu and start main loop
 		self.city = City()
 		self.city.generate_name()
+		self.log('city name: ' + self.city.name)
 		self.city.generate_districts()
+		self.log('districts: ' + str(self.city.districts))
