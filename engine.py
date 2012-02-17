@@ -14,17 +14,18 @@ class Engine:
 	def preload_menus(self):
 		self.menus = json.load(open('data/menus.cfg'))
 		
-	def show_menu(self, menu, data):
+	def show_menu(self, menu, data={}):
 		# ("Districts", ["{districts_info}", "multiline"])
-		if self.menus[menu]['data'] is not None:
+		if self.menus[menu]['data']:
 			tpl_data = self.menus[menu]['data']
+			
 			for i in tpl_data.items():
 				b = Template(i[1][0])
 				tpl_data[i[0]] = b.substitute(data)
 		else:
 			tpl_data = {}
 				
-		end_result = {'data': tpl_data, 'options': self.menus[menu]['options']}
+		end_result = {'data': tpl_data, 'options': self.menus[menu]['options'], 'title': self.menus[menu]['title']}
 
 		self.player.current_menu = menu
 		self.screen.display_menu(end_result)
@@ -63,6 +64,6 @@ class Engine:
 		data = {
 			'city_name': self.city.name,
 			'total_households': self.city.total_households(),
-			'districts_info': ''
+			'districts_info': ", ".join(self.city.districts.keys())
 		}
 		self.show_menu('city_overview_menu', data)

@@ -29,9 +29,11 @@ class Screen:
 		for d in menu['data'].items():
 			label = d[0]
 			val = d[1][0]
-			self.screen.addstr(offset + 1, 5, "%s: %s" % (label, data))
+			self.screen.addstr(offset + 1, 5, "%s: %s" % (label, val))
 			offset += 1
-			
+		
+		offset += 2
+		
 		for option in menu['options'].items():
 			o_key = option[0]
 			o_str = option[1][0]
