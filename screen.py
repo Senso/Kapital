@@ -1,4 +1,4 @@
-from curses import newwin
+from curses import newwin, ascii
 
 class Screen:
 	def __init__(self, stdscr):
@@ -6,14 +6,14 @@ class Screen:
 		self.height = 30
 		self.width = 80
 		self.curx, self.cury = 0, 0
-		self.screen.resize(self.height, self.width)
+		#self.screen.resize(self.height, self.width)
 		
 		self.dat_scr = newwin(20, 80, 0, 0)
 		self.opt_scr = newwin(10, 80, 20, 0)
 		
 		self.dat_scr.refresh()
 		self.opt_scr.refresh()
-		#self.screen.refresh()
+		self.screen.refresh()
 	
 	def catch_key(self, opts):
 		# depending on menu, process keys and run callbacks
@@ -23,7 +23,8 @@ class Screen:
 				return opts[key][1]
 				
 	def set_borders(self):
-		self.screen.box()
+		self.dat_scr.box()
+		self.opt_scr.box()
 				
 	def display_menu(self, menu):
 		# get the title menu from the config
@@ -33,24 +34,22 @@ class Screen:
 		self.opt_scr.clear()
 		
 		self.set_borders()
-		self.screen.addstr(2, 2, menu['title'])
-		offset = 3
+		self.dat_scr.addstr(2, 2, menu['title'])
 		
-		for d in menu['data'].items():
-			label = d[0]
-			val = d[1]
-			self.dat_scr.addstr(offset + 1, 5, "%s: %s" % (label, val))
-			offset += 1
+		if menu['data'].items():
+			for d in menu['data'].items():
+				label = d[0]
+				val = d[1]
+				self.dat_scr.addstr(ascii.LF + ascii.CR + "%s: %s" % (label, val))
+				offset += 1
+			self.dat_scr.refresh()
 		
-		offset += 2
 		
 		for option in menu['options'].items():
 			o_key = option[0]
 			o_str = option[1][0]
-			self.opt_scr.addstr(offset + 1, 5, "(%s) %s" % (o_key, o_str))
-			offset += 1
+			self.opt_scr.addstr("(%s) %s" % (o_key, o_str) + ascii.LF + ascii.CR)
 			
-		self.dat_scr.refresh()
 		self.opt_scr.refresh()
 		
 		#callback = self.catch_key(menu['options'])
