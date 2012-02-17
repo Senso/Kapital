@@ -55,6 +55,11 @@ class District:
 	def generate_households(self):
 		self.households = 25000 + randint(2000, 10000) + randint(2000,15000)
 		return self.households
+	
+	def log(self, str):
+		f = open('cap.log', 'a')
+		f.write(str + '\n')
+		f.close()
 		
 	def generate_income(self, level='middle'):
 		if level == 'poor':
