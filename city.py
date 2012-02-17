@@ -32,7 +32,7 @@ class City:
 		poor = int(floor(float(len(ds)) * 0.25))
 		middle = int(floor(float(len(ds)) * 0.60))
 		rich = int(floor(float(len(ds)) * 0.15))
-		middle += num_districts - (poor + middle + rich)
+		middle += len(ds) - (poor + middle + rich)
 	
 		for dist in ds[:poor]:
 			self.districts[dist].generate_income('poor')
