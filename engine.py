@@ -13,6 +13,10 @@ class Engine:
 	def preload_menus(self):
 		self.menus = json.load(open('data/menus.cfg'))
 		
+	def show_menu(self, menu):
+		self.player.current_menu = menu
+		self.screen.display_menu(self.menus[menu])
+		
 	def process_callback(self, cb):
 		self.log('callback: ' + cb)
 		cmd = getattr(self, cb)
@@ -25,13 +29,18 @@ class Engine:
 		f.close()
 		
 	def start(self):
-		self.screen.set_borders()
-		
-		callback = self.screen.display_menu(self.menus['title_menu'])
-		self.process_callback(callback)
+		self.show_menu('title_menu')
+		self.main_loop()
+		#callback = self.screen.display_menu(self.menus['title_menu'])
+		#self.process_callback(callback)
 		
 	def quit(self):
 		sys.exit(0)
+		
+	def main_loop(self):
+		while True:
+			key = self.screen.catch_key(self.menus[player.current_menu]['options'])
+			self.process_callback(key)
 		
 	def new_game(self):
 		# generate City name
@@ -44,3 +53,6 @@ class Engine:
 		self.city.generate_districts()
 		for d in self.city.districts.values():
 			self.log("%s: %s" % (d.name, str(d.households) + ', ' + str(d.median_income)))
+			
+		self.show_menu('city_overview_menu')
+		#self.main_loop()

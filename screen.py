@@ -32,8 +32,8 @@ class Screen:
 			offset += 1
 		self.screen.refresh()
 		
-		callback = self.catch_key(menu['options'])
-		return callback
+		#callback = self.catch_key(menu['options'])
+		#return callback
 		
 	def main_loop(self):
 		# Find in which menu the player is and
