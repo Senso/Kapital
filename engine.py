@@ -42,4 +42,5 @@ class Engine:
 		self.city.generate_name()
 		self.log('city name: ' + self.city.name)
 		self.city.generate_districts()
-		self.log('districts: ' + str(self.city.districts))
+		for d in self.city.districts:
+			self.log("%s: %s" % (d.name, str(d.households) + ', ' + str(d.median_income)))
