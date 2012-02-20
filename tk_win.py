@@ -9,7 +9,7 @@ class Tk_win:
 
 	def init_screen(self):
 		# Main text window
-		self.main_win = Label(self.root, width=60, height=20,
+		self.main_win = Label(self.root, width=60, height=25,
 		  justify=LEFT, anchor=NW, bg='#000000',
 		  fg='#FFFFFF', wraplength=500, font=("courier", "10"), textvariable=self.main_txt)
 		self.main_win.pack(side=TOP)
