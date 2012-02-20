@@ -16,11 +16,11 @@ class Commands:
 	def load_game(self, screen):
 		pass
 	
-	def show_business(self, screen):
-		pass
-	
 	def show_main_menu(self, screen):
 		self.game.display_main_menu()
 		
 	def show_city(self, screen):
 		self.game.display_city_menu()
+		
+	def show_corporation(self, screen):
+		text = "Name: %s\n" % self.game.player.corp_name

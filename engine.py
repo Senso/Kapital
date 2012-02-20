@@ -1,5 +1,4 @@
 import json
-from string import Template
 
 from commands import Commands
 from city import City
@@ -23,6 +22,7 @@ class Engine:
 		self.screen.init_screen()
 		
 	def update_options(self, menu_data):
+		# Unbind all previous keys
 		if self.current_menu is not None:
 			for option in self.current_menu['options'].items():
 				self.screen.root.unbind(option[0])
@@ -41,6 +41,14 @@ class Engine:
 				
 		self.current_menu = menu_data
 		self.screen.update_opts_win(txt)
+		
+	def new_game(self):
+		self.city = City()
+		self.city.generate_name()
+		self.city.generate_districts()
+
+		self.commands.show_city(None)
+		self.update_options(self.menus['city_overview_menu'])
 	
 	def display_main_menu(self):
 		self.screen.update_main_win('Welcome to huh...')
@@ -54,10 +62,3 @@ class Engine:
 			ntext += "%s%s$%s\n" % (d.name.ljust(lmax), str(d.households).ljust(lmax), str(d.median_income).ljust(lmax))
 		self.screen.update_main_win(ntext)
 		
-	def new_game(self):
-		self.city = City()
-		self.city.generate_name()
-		self.city.generate_districts()
-
-		self.commands.show_city(None)
-		self.update_options(self.menus['city_overview_menu'])
