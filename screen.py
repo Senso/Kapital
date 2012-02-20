@@ -1,61 +1,69 @@
-from curses import newwin, ascii
+import pygtk 
+pygtk.require("2.0")
+import gtk
 
 class Screen:
-	def __init__(self, stdscr):
-		self.screen = stdscr
-		self.height = 30
-		self.width = 80
-		self.curx, self.cury = 0, 0
-		#self.screen.resize(self.height, self.width)
+	def __init__(self):
+		self.vbox = gtk.VBox() 
+		self.hbox = gtk.HBox()
+		win = gtk.Window()
+		win.add(self.vbox)
 		
-		self.dat_scr = newwin(20, 80, 0, 0)
-		self.opt_scr = newwin(10, 80, 20, 0)
+		self.top_menu()
+		self.main_label()
 		
-		self.dat_scr.refresh()
-		self.opt_scr.refresh()
-		self.screen.refresh()
-	
-	def catch_key(self, opts):
-		# depending on menu, process keys and run callbacks
-		while True:
-			key = self.screen.getkey()
-			if key in opts.keys():
-				return opts[key][1]
-				
-	def set_borders(self):
-		self.dat_scr.box()
-		self.opt_scr.box()
-				
-	def display_menu(self, menu):
-		# get the title menu from the config
-		# display it
-		#self.screen.clear()
-		self.dat_scr.clear()
-		self.opt_scr.clear()
+		win.show_all()
+		gtk.main()
 		
-		self.set_borders()
-		self.dat_scr.addstr(2, 2, menu['title'])
+	def top_menu(self):
+		self.menubar = gtk.MenuBar()
+		file_item = gtk.MenuItem("_File")
+		help_item = gtk.MenuItem("_Help")
 		
-		if menu['data'].items():
-			for d in menu['data'].items():
-				label = d[0]
-				val = d[1]
-				self.dat_scr.addstr(ascii.LF + ascii.CR + "%s: %s" % (label, val))
-				offset += 1
-			self.dat_scr.refresh()
+		file_item_sub = gtk.Menu()
+		save = gtk.MenuItem("_Save")
+		quit = gtk.MenuItem("_Quit")
+		file_item_sub.append(save)
+		file_item_sub.append(quit)
 		
+		help_item_sub = gtk.Menu()
+		about = gtk.MenuItem("_About")
+		help_item_sub.append(about)
 		
-		for option in menu['options'].items():
-			o_key = option[0]
-			o_str = option[1][0]
-			self.opt_scr.addstr("(%s) %s" % (o_key, o_str) + ascii.LF + ascii.CR)
-			
-		self.opt_scr.refresh()
+		file_item.set_submenu(file_item_sub)
+		help_item.set_submenu(help_item_sub)
+		self.menubar.append(file_item)
+		self.menubar.append(help_item)
 		
-		#callback = self.catch_key(menu['options'])
-		#return callback
+		save.connect("activate", self.save_callback)
+		quit.connect("activate", self.quit_callback)
+		about.connect("activate", self.about_callback)
+		self.vbox.pack_start(self.menubar, True, True, 2)
 		
-	def main_loop(self):
-		# Find in which menu the player is and
-		# lookup the corresponding valid keys
-		self.catch_key()
+	def main_label(self):
+		self.label = gtk.Label()
+		self.label.selectable = 1
+		self.vbox.pack_start(self.label, True, True, 2)
+		
+	def save_callback(self, widget=None):
+		print "Save menu item was pressed"
+
+	def quit_callback(self, widget=None):
+		print "Quit menu item was pressed"
+		gtk.main_quit()
+
+	def about_callback(widget=None):
+		print "About menu item was pressed"
+
+
+
+
+
+
+
+
+
+
+
+
+
