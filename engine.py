@@ -46,6 +46,8 @@ class Engine:
 		self.city = City()
 		self.city.generate_name()
 		self.city.generate_districts()
+		
+		self.player.money = 1000000
 
 		self.commands.show_city(None)
 		self.update_options(self.menus['city_overview_menu'])
@@ -53,12 +55,19 @@ class Engine:
 	def display_main_menu(self):
 		self.screen.update_main_win('Welcome to huh...')
 		
-	def display_city_menu(self):
-		lmax = max(len(w) for w in self.city.districts.keys()) + 1
+	def display_city_menu(self, districts=None):
+		if districts is None:
+			# By default, we sort by district name
+			districts = self.city.districts.keys()
+			districts.sort()
+		lmax = max(len(w) for w in districts) + 1
+		
 		
 		ntext = "City: \n%s\n\n" % self.city.name
 		ntext += "%s%s%s\n" % ('District'.ljust(lmax), 'Households'.ljust(lmax), 'Median income'.ljust(lmax))
-		for d in self.city.districts.values():
-			ntext += "%s%s$%s\n" % (d.name.ljust(lmax), str(d.households).ljust(lmax), str(d.median_income).ljust(lmax))
+		for d in districts:
+			ntext += "%s%s$%s\n" % (d.ljust(lmax), str(self.city.districts[d].households).ljust(lmax), str(self.city.districts[d].median_income).ljust(lmax))
+			
 		self.screen.update_main_win(ntext)
+		self.update_options(self.menus['city_overview_menu'])
 		

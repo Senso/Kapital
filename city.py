@@ -52,6 +52,28 @@ class City:
 		for d in self.districts.values():
 			data.append((d.name, d.households, d.median_income))
 		return data
+	
+	def sort_districts_by_households(self, order='households_asc'):
+		new = []
+		for i in self.districts.values():
+			new.append((i.name, i.households, i.median_income))
+		if order == 'households_asc':
+			new.sort(key=lambda tup: tup[1])
+		else:
+			new.sort(key=lambda tup: tup[1], reverse=True)
+		derp = [x[0] for x in new]
+		return derp
+	
+	def sort_districts_by_income(self, order='income_asc'):
+		new = []
+		for i in self.districts.values():
+			new.append((i.name, i.households, i.median_income))
+		if order == 'income_asc':
+			new.sort(key=lambda tup: tup[2])
+		else:
+			new.sort(key=lambda tup: tup[2], reverse=True)
+		derp = [x[0] for x in new]
+		return derp
 
 class District:
 	def __init__(self):
