@@ -24,6 +24,9 @@ class Engine:
 			for i in tpl_data.items():
 				b = Template(i[1][0])
 				tpl_data[i[0]] = b.substitute(data)
+				
+				if len(i[1]) == 2 and i[1][1] == 'multiline':
+					tpl_data[i[0]] = self.format_multiline(tpl_data[i[0]])
 		else:
 			tpl_data = {}
 				
@@ -46,9 +49,15 @@ class Engine:
 	def start(self):
 		print 'Starting'
 		self.screen.init_screen(self.show_menu('title_menu'))
-
-	def quit(self):
-		sys.exit(0)
+		
+	def format_multiline(self, data):
+		print type(data)
+		formatted = '\n'
+		for i in data:
+			#print i
+			formatted += "\t".join(i)
+			#formatted += '\n'
+		return formatted
 		
 	def new_game(self):
 		self.city = City()
@@ -61,6 +70,6 @@ class Engine:
 		data = {
 			'city_name': self.city.name,
 			'total_households': self.city.total_households(),
-			'districts_info': ", ".join(self.city.districts.keys())
+			'districts_info': self.city.districts_info()
 		}
 		self.screen.update_menu(self.show_menu('city_overview_menu', data))

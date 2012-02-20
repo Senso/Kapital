@@ -1,7 +1,6 @@
 import json
 from math import floor
 from random import randint, choice, randrange
-#from curses import ascii
 
 class City:
 	def __init__(self):
@@ -47,6 +46,12 @@ class City:
 		for d in self.districts.values():
 			t_h += d.households
 		return t_h
+	
+	def districts_info(self):
+		data = []
+		for d in self.districts.values():
+			data.append((d.name, d.households, d.median_income))
+		return data
 
 class District:
 	def __init__(self):
