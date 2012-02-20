@@ -23,4 +23,7 @@ class Commands:
 		self.game.display_city_menu()
 		
 	def show_corporation(self, screen):
+		self.game.update_options(self.game.menus['corp_overview_menu'])
+		
 		text = "Name: %s\n" % self.game.player.corp_name
+		text += "Cash: %s\n"  % self.game.player.money
