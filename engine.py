@@ -34,12 +34,6 @@ class Engine:
 
 		self.player.current_menu = menu
 		return end_result
-		
-	def process_callback(self, cb):
-		self.log('callback: ' + cb)
-		cmd = getattr(self, cb)
-		if cmd:
-			cmd()
 			
 	def log(self, str):
 		f = open('cap.log', 'a')
