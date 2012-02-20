@@ -11,6 +11,7 @@ class Engine:
 		self.screen = screen
 		self.city = None
 		self.menus = None
+		self.current_menu = None
 		
 	def preload_menus(self):
 		self.menus = json.load(open('data/menus.cfg'))
@@ -22,6 +23,10 @@ class Engine:
 		self.screen.init_screen()
 		
 	def update_options(self, menu_data):
+		if self.current_menu is not None:
+			for option in self.current_menu['options'].items():
+				self.screen.root.unbind(option[0])
+			
 		txt = ''
 		for option in menu_data['options'].items():
 			o_key = option[0]
@@ -33,6 +38,8 @@ class Engine:
 			cmd = getattr(self.commands, o_cb)
 			if cmd:
 				self.screen.root.bind(o_key, func=cmd)
+				
+		self.current_menu = menu_data
 		self.screen.update_opts_win(txt)
 	
 	def display_main_menu(self):
@@ -40,7 +47,6 @@ class Engine:
 		
 	def display_city_menu(self):
 		lmax = max(len(w) for w in self.city.districts.keys()) + 1
-		print 'lmax', lmax
 		
 		ntext = "City: \n%s\n\n" % self.city.name
 		ntext += "%s%s%s\n" % ('District'.ljust(lmax), 'Households'.ljust(lmax), 'Median income'.ljust(lmax))
