@@ -3,67 +3,55 @@ from string import Template
 
 from commands import Commands
 from city import City
-from tk_win import Tk_win
 
 class Engine:
-	def __init__(self, player):
+	def __init__(self, player, screen):
 		self.player = player
 		self.commands = Commands(self)
-		self.screen = Tk_win(self.commands)
+		self.screen = screen
 		self.city = None
 		self.menus = None
 		
 	def preload_menus(self):
 		self.menus = json.load(open('data/menus.cfg'))
 		
-	def show_menu(self, menu, data={}):
-		# ("Districts", ["{districts_info}", "multiline"])
-		if self.menus[menu]['data']:
-			tpl_data = self.menus[menu]['data']
-			
-			for i in tpl_data.items():
-				b = Template(i[1][0])
-				tpl_data[i[0]] = b.substitute(data)
-				
-				if len(i[1]) == 2 and i[1][1] == 'multiline':
-					tpl_data[i[0]] = self.format_multiline(tpl_data[i[0]])
-		else:
-			tpl_data = {}
-				
-		end_result = {'data': tpl_data, 'options': self.menus[menu]['options'], 'title': self.menus[menu]['title']}
-
-		self.player.current_menu = menu
-		return end_result
-			
-	def log(self, str):
-		f = open('cap.log', 'a')
-		f.write(str + '\n')
-		f.close()
-		
 	def start(self):
 		print 'Starting'
-		self.screen.init_screen(self.show_menu('title_menu'))
+		self.update_options(self.menus['title_menu'])
+		self.display_main_menu()
+		self.screen.init_screen()
 		
-	def format_multiline(self, data):
-		print type(data)
-		formatted = '\n'
-		for i in data:
-			#print i
-			formatted += "\t".join(i)
-			#formatted += '\n'
-		return formatted
+	def update_options(self, menu_data):
+		txt = ''
+		for option in menu_data['options'].items():
+			o_key = option[0]
+			o_str = option[1][0]
+			o_cb  = option[1][1]
+			txt += "(%s) %s\n" % (o_key, o_str)
+			
+			# Bind callbacks
+			cmd = getattr(self.commands, o_cb)
+			if cmd:
+				self.screen.root.bind(o_key, func=cmd)
+		self.screen.update_opts_win(txt)
+	
+	def display_main_menu(self):
+		self.screen.update_main_win('Welcome to huh...')
+		
+	def display_city_menu(self):
+		lmax = max(len(w) for w in self.city.districts.keys()) + 1
+		print 'lmax', lmax
+		
+		ntext = "City: \n%s\n\n" % self.city.name
+		ntext += "%s%s%s\n" % ('District'.ljust(lmax), 'Households'.ljust(lmax), 'Median income'.ljust(lmax))
+		for d in self.city.districts.values():
+			ntext += "%s%s$%s\n" % (d.name.ljust(lmax), str(d.households).ljust(lmax), str(d.median_income).ljust(lmax))
+		self.screen.update_main_win(ntext)
 		
 	def new_game(self):
 		self.city = City()
 		self.city.generate_name()
-		self.log('city name: ' + self.city.name)
 		self.city.generate_districts()
-		for d in self.city.districts.values():
-			self.log("%s: %s" % (d.name, str(d.households) + ', ' + str(d.median_income)))
-		
-		data = {
-			'city_name': self.city.name,
-			'total_households': self.city.total_households(),
-			'districts_info': self.city.districts_info()
-		}
-		self.screen.update_menu(self.show_menu('city_overview_menu', data))
+
+		self.commands.show_city(None)
+		self.update_options(self.menus['city_overview_menu'])
