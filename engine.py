@@ -1,13 +1,15 @@
-import sys
 import json
 from string import Template
 
+from commands import Commands
 from city import City
+from tk_win import Tk_win
 
 class Engine:
-	def __init__(self, player, screen):
+	def __init__(self, player):
 		self.player = player
-		self.screen = screen
+		self.commands = Commands(self)
+		self.screen = Tk_win(self.commands)
 		self.city = None
 		self.menus = None
 		
@@ -28,7 +30,7 @@ class Engine:
 		end_result = {'data': tpl_data, 'options': self.menus[menu]['options'], 'title': self.menus[menu]['title']}
 
 		self.player.current_menu = menu
-		self.screen.display_menu(end_result)
+		return end_result
 		
 	def process_callback(self, cb):
 		self.log('callback: ' + cb)
@@ -42,16 +44,11 @@ class Engine:
 		f.close()
 		
 	def start(self):
-		self.show_menu('title_menu')
-		self.main_loop()
-		
+		print 'Starting'
+		self.screen.init_screen(self.show_menu('title_menu'))
+
 	def quit(self):
 		sys.exit(0)
-		
-	def main_loop(self):
-		while True:
-			key = self.screen.catch_key(self.menus[self.player.current_menu]['options'])
-			self.process_callback(key)
 		
 	def new_game(self):
 		self.city = City()
@@ -66,4 +63,4 @@ class Engine:
 			'total_households': self.city.total_households(),
 			'districts_info': ", ".join(self.city.districts.keys())
 		}
-		self.show_menu('city_overview_menu', data)
+		self.screen.update_menu(self.show_menu('city_overview_menu', data))

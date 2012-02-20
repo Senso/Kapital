@@ -1,15 +1,10 @@
-import curses
-from screen import Screen
+#import curses
+#from screen import Screen
 from engine import Engine
 from player import Player
 
-def main(stdscr):
-	# main game initialization
-	game = Engine(Player(), Screen(stdscr))
+if __name__ == '__main__':
+	game = Engine(Player())
 	game.preload_menus()
 	
 	game.start()
-	
-
-if __name__ == '__main__':
-	curses.wrapper(main)
