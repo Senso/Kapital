@@ -5,3 +5,5 @@ class Player:
 		self.money = None
 		self.corp_name = 'PlayerCorp'
 		
+		self.order_mode = ''
+		
