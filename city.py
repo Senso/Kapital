@@ -1,7 +1,7 @@
 import json
 from math import floor
 from random import randint, choice, randrange
-from curses import ascii
+#from curses import ascii
 
 class City:
 	def __init__(self):
