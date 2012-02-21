@@ -69,6 +69,7 @@ class Engine:
 		
 	def end_turn(self):
 		self.player.end_turn()
-		self.screen.update_head_win(self.player.date.ctime())
+		txt = "%s\nTurn: %s" % (self.player.date.ctime(), self.player.turn)
+		self.screen.update_head_win(txt)
 		
 		
