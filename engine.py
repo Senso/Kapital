@@ -18,7 +18,7 @@ class Engine:
 	def start(self):
 		print 'Starting'
 		self.update_options(self.menus['title_menu'])
-		self.display_main_menu()
+		self.screen.update_main_win('Title Screen')
 		self.screen.init_screen()
 		
 	def update_options(self, menu_data):
@@ -51,9 +51,6 @@ class Engine:
 
 		self.commands.show_city(None)
 		self.update_options(self.menus['city_overview_menu'])
-	
-	def display_main_menu(self):
-		self.screen.update_main_win('Welcome to huh...')
 		
 	def display_city_menu(self, districts=None):
 		if districts is None:
@@ -62,7 +59,6 @@ class Engine:
 			districts.sort()
 		lmax = max(len(w) for w in districts) + 1
 		
-		
 		ntext = "City: \n%s\n\n" % self.city.name
 		ntext += "%s%s%s\n" % ('District'.ljust(lmax), 'Households'.ljust(lmax), 'Median income'.ljust(lmax))
 		for d in districts:
@@ -70,4 +66,9 @@ class Engine:
 			
 		self.screen.update_main_win(ntext)
 		self.update_options(self.menus['city_overview_menu'])
+		
+	def end_turn(self):
+		self.player.end_turn()
+		self.screen.update_head_win(self.player.date.ctime())
+		
 		

@@ -6,6 +6,9 @@ class Commands:
 	
 	def quit(self, screen):
 		sys.exit(0)
+		
+	def end_turn(self, screen):
+		self.game.end_turn()
 	
 	def new_game(self, screen):
 		self.game.new_game()
