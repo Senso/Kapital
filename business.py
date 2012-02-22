@@ -8,6 +8,7 @@ class Business:
 		self.producing = None
 		self.district = None
 		self.stocks = {}
+		self.employees = 0
 
 	def generate_name(self):
 		# Placeholder
