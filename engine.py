@@ -1,7 +1,9 @@
 import json
+from random import randrange, choice
 
 from commands import Commands
 from city import City
+from business import Business
 
 class Engine:
 	def __init__(self, player, screen):
@@ -12,6 +14,7 @@ class Engine:
 		self.menus = None
 		self.current_menu = None
 		self.resources = None
+		self.ai_companies = []
 		
 	def preload_cfg(self):
 		self.menus = json.load(open('data/menus.cfg'))
@@ -45,10 +48,24 @@ class Engine:
 		self.screen.update_opts_win(txt)
 		
 	def new_game(self):
+		# Create new city
 		self.city = City()
 		self.city.generate_name()
 		self.city.generate_districts()
+		# Generate AI companies
+		for i in xrange(0, randrange(10, 20)):
+			b = Business()
+			b.generate_name()
+			b.starting_funds()
+			b.randomize_production(self.resources)
+			b.district = choice(self.city.districts.keys())
+			self.ai_companies.append(b)
 		
+		print self.ai_companies
+		print
+		for i in self.ai_companies:
+			print i.name, i.money, i.producing, i.district
+			
 		self.player.money = 1000000
 
 		self.commands.show_city(None)
