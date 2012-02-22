@@ -11,9 +11,11 @@ class Engine:
 		self.city = None
 		self.menus = None
 		self.current_menu = None
+		self.resources = None
 		
-	def preload_menus(self):
+	def preload_cfg(self):
 		self.menus = json.load(open('data/menus.cfg'))
+		self.resources = json.load(open('data/resources.cfg'))
 		
 	def start(self):
 		print 'Starting'
