@@ -16,7 +16,7 @@ class Business:
 		self.name = self.prod_data.keys()[0].capitalize() + ' #' + str(randrange(1,1000))
 		
 	def starting_funds(self):
-		self.money = 50000 + randrange(5000,50000) + randrange(1000,10000)
+		self.money = 150000 + randrange(5000,50000) + randrange(1000,10000)
 		
 	def randomize_production(self, ind, res):
 		industry = choice(ind.keys())
