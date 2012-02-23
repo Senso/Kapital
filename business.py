@@ -1,7 +1,7 @@
 from random import randrange, choice
 
 class Business:
-	def __init__(self, data):
+	def __init__(self):
 		self.money = 0
 		self.name = ''
 		self.suppliers = {}
