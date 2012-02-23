@@ -33,15 +33,15 @@ class Commands:
 		
 		self.game.screen.update_main_win(text)
 		
-	def sort_households(self, screen):
-		if self.game.player.order_mode == 'households_desc':
-			self.game.player.order_mode = 'households_asc'
-		elif self.game.player.order_mode == 'households_asc':
-			self.game.player.order_mode = 'households_desc'
+	def sort_pop(self, screen):
+		if self.game.player.order_mode == 'pop_desc':
+			self.game.player.order_mode = 'pop_asc'
+		elif self.game.player.order_mode == 'pop_asc':
+			self.game.player.order_mode = 'pop_desc'
 		else:
-			self.game.player.order_mode = 'households_asc'
+			self.game.player.order_mode = 'pop_asc'
 			
-		s = self.game.city.sort_districts_by_households(self.game.player.order_mode)
+		s = self.game.city.sort_districts_by_pop(self.game.player.order_mode)
 		self.game.display_city_menu(s)
 	
 	def sort_income(self, screen):

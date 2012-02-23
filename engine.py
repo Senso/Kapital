@@ -80,7 +80,7 @@ class Engine:
 			districts = self.city.districts_info()
 			
 		self.screen.display_column_data("City: \n%s\n\n" % self.city.name,
-			['District', 'Households', 'Income', 'Unemployed', '%'],
+			['District', 'Pop', 'Income', 'Unemployed', '%'],
 			districts)
 
 		self.update_options(self.menus['city_overview_menu'])

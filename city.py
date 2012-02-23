@@ -20,7 +20,7 @@ class City:
 		while num_districts > 1:
 			d = District()
 			name = d.generate_name()
-			d.generate_households()
+			d.generate_pop()
 			if name not in self.districts.keys():
 				self.districts[name] = d
 				num_districts -= 1
@@ -41,22 +41,22 @@ class City:
 		for dist in ds[poor+middle:]:
 			self.districts[dist].generate_income('rich')
 			
-	def total_households(self):
+	def total_pop(self):
 		t_h = 0
 		for d in self.districts.values():
-			t_h += d.households
+			t_h += d.population
 		return t_h
 	
 	def districts_info(self):
 		data = []
 		for d in self.districts.values():
-			data.append((d.name, d.households, d.median_income, d.unemployed, d.unemployment_rate * 100))
+			data.append((d.name, d.population, d.median_income, d.unemployed, d.unemployment_rate * 100))
 		data.sort(key=lambda t: t[0])
 		return data
 	
-	def sort_districts_by_households(self, order='households_asc'):
+	def sort_districts_by_pop(self, order='pop_asc'):
 		dist = self.districts_info()
-		if order == 'households_asc':
+		if order == 'pop_asc':
 			dist.sort(key=lambda tup: tup[1])
 		else:
 			dist.sort(key=lambda tup: tup[1], reverse=True)
@@ -74,6 +74,7 @@ class District:
 	def __init__(self):
 		self.name = ''
 		self.households = 0
+		self.population = 0
 		self.median_income = 0
 		self.unemployed = 0
 		self.unemployment_rate = 0
@@ -83,9 +84,9 @@ class District:
 		self.name = choice(names['district_names'])
 		return self.name
 		
-	def generate_households(self):
-		self.households = 25000 + randint(2000, 10000) + randint(2000,15000)
-		return self.households
+	def generate_pop(self):
+		self.population = 60000 + randint(10000,50000) + randint(10000,100000)
+		return self.population
 	
 	def starting_unemployment(self, level):
 		base = 0.06
@@ -97,7 +98,7 @@ class District:
 			base = 0.02
 		self.unemployment_rate = round(base, 2)
 		
-		calc = (float(self.households) * self.unemployment_rate) * 2.0
+		calc = float(self.population) * self.unemployment_rate
 		self.unemployed = int(calc)
 		
 	def generate_income(self, level='middle'):
