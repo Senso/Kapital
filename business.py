@@ -21,7 +21,8 @@ class Business:
 	def randomize_production(self, ind, res):
 		industry = choice(ind.keys())
 		self.prod_data = {industry: ind[industry]}
-		self.resource_data = res[self.prod_data[produces]]
+		self.producing = self.prod_data[industry]['produces'][0]
+		self.resource_data = res[self.producing]
 		
 	def end_turn(self):
 		pass
