@@ -29,6 +29,25 @@ class Tk_win:
 		
 		self.root.mainloop()
 		
+	def display_column_data(self, prefix, header, data, suffix=''):
+		hmax = max(len(w) for w in header) + 1
+		dmax = max(len(str(w)) for w in [item for sublist in data for item in sublist])
+		vmax = hmax if hmax > dmax else dmax
+		
+		head = "%s" * len(header) + '\n'
+		head = head % tuple([x.ljust(vmax) for x in header])
+		
+		text = prefix
+		text += head
+		
+		dat = "%s" * len(header) + '\n'
+		for line in data:
+			text += dat % tuple([str(x).ljust(vmax) for x in line])
+		
+		text += suffix
+		
+		self.update_main_win(text)
+
 	def update_head_win(self, txt):
 		self.head_txt.set(txt)
 		

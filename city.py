@@ -1,6 +1,6 @@
 import json
 from math import floor
-from random import randint, choice, randrange
+from random import randint, choice, randrange, random
 
 class City:
 	def __init__(self):
@@ -50,30 +50,25 @@ class City:
 	def districts_info(self):
 		data = []
 		for d in self.districts.values():
-			data.append((d.name, d.households, d.median_income))
+			data.append((d.name, d.households, d.median_income, d.unemployed, d.unemployment_rate * 100))
+		data.sort(key=lambda t: t[0])
 		return data
 	
 	def sort_districts_by_households(self, order='households_asc'):
-		new = []
-		for i in self.districts.values():
-			new.append((i.name, i.households, i.median_income))
+		dist = self.districts_info()
 		if order == 'households_asc':
-			new.sort(key=lambda tup: tup[1])
+			dist.sort(key=lambda tup: tup[1])
 		else:
-			new.sort(key=lambda tup: tup[1], reverse=True)
-		derp = [x[0] for x in new]
-		return derp
+			dist.sort(key=lambda tup: tup[1], reverse=True)
+		return dist
 	
 	def sort_districts_by_income(self, order='income_asc'):
-		new = []
-		for i in self.districts.values():
-			new.append((i.name, i.households, i.median_income))
+		dist = self.districts_info()
 		if order == 'income_asc':
-			new.sort(key=lambda tup: tup[2])
+			dist.sort(key=lambda tup: tup[2])
 		else:
-			new.sort(key=lambda tup: tup[2], reverse=True)
-		derp = [x[0] for x in new]
-		return derp
+			dist.sort(key=lambda tup: tup[2], reverse=True)
+		return dist
 
 class District:
 	def __init__(self):
@@ -81,6 +76,7 @@ class District:
 		self.households = 0
 		self.median_income = 0
 		self.unemployed = 0
+		self.unemployment_rate = 0
 
 	def generate_name(self):
 		names = json.load(open('data/districts.cfg'))
@@ -91,19 +87,28 @@ class District:
 		self.households = 25000 + randint(2000, 10000) + randint(2000,15000)
 		return self.households
 	
-	def log(self, str):
-		f = open('cap.log', 'a')
-		f.write(str + '\n')
-		f.close()
+	def starting_unemployment(self, level):
+		base = 0.06
+		if level == 'poor':
+			base += random() / 4.0 + random() / 5.0
+		elif level == 'rich':
+			base -= random() / 4.0
+		if base <= 0.0:
+			base = 0.02
+		self.unemployment_rate = round(base, 2)
+		
+		calc = (float(self.households) * self.unemployment_rate) * 2.0
+		self.unemployed = int(calc)
 		
 	def generate_income(self, level='middle'):
+		self.starting_unemployment(level)
+		
 		if level == 'poor':
 			self.median_income = 12000 + randint(1000, 7000) + randint(1000, 6000)
 		elif level == 'middle':
 			self.median_income = 30000 + randint(5000, 10000) + randint(2000, 7000)
 		elif level == 'rich':
 			self.median_income = 60000 + randint(5000, 10000) + randint(10000, 40000)
-		self.log("%s: (%s) %s" % (self.name, level, self.median_income))
 		return self.median_income
 		
 		

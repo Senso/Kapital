@@ -77,16 +77,12 @@ class Engine:
 	def display_city_menu(self, districts=None):
 		if districts is None:
 			# By default, we sort by district name
-			districts = self.city.districts.keys()
-			districts.sort()
-		lmax = max(len(w) for w in districts) + 1
-		
-		ntext = "City: \n%s\n\n" % self.city.name
-		ntext += "%s%s%s\n" % ('District'.ljust(lmax), 'Households'.ljust(lmax), 'Median income'.ljust(lmax))
-		for d in districts:
-			ntext += "%s%s$%s\n" % (d.ljust(lmax), str(self.city.districts[d].households).ljust(lmax), str(self.city.districts[d].median_income).ljust(lmax))
+			districts = self.city.districts_info()
 			
-		self.screen.update_main_win(ntext)
+		self.screen.display_column_data("City: \n%s\n\n" % self.city.name,
+			['District', 'Households', 'Income', 'Unemployed', '%'],
+			districts)
+
 		self.update_options(self.menus['city_overview_menu'])
 		
 	def end_turn(self):
