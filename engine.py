@@ -52,12 +52,13 @@ class Engine:
 		self.city = City()
 		self.city.generate_name()
 		self.city.generate_districts()
+		
 		# Generate AI companies
 		for i in xrange(0, randrange(10, 20)):
 			b = Business()
-			b.generate_name()
 			b.starting_funds()
 			b.randomize_production(self.resources)
+			b.generate_name()
 			b.district = choice(self.city.districts.keys())
 			self.ai_companies.append(b)
 		
