@@ -30,20 +30,15 @@ class Tk_win:
 		self.root.mainloop()
 		
 	def display_column_data(self, prefix, header, data, suffix=''):
-		hmax = max(len(w) for w in header) + 1
-		dmax = max(len(str(w)) for w in [item for sublist in data for item in sublist])
-		vmax = hmax if hmax > dmax else dmax
+		data.insert(0, header)
 		
-		head = "%s" * len(header) + '\n'
-		head = head % tuple([x.ljust(vmax) for x in header])
+		cols = zip(*data)
+		col_widths = [ max(len(str(value)) for value in col) for col in cols ]
+		format = ' '.join(['%%%ss' % width for width in col_widths ]) + '\n'
 		
 		text = prefix
-		text += head
-		
-		dat = "%s" * len(header) + '\n'
-		for line in data:
-			text += dat % tuple([str(x).ljust(vmax) for x in line])
-		
+		for row in data:
+			text += format % tuple(row)
 		text += suffix
 		
 		self.update_main_win(text)
