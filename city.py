@@ -50,7 +50,7 @@ class City:
 	def districts_info(self):
 		data = []
 		for d in self.districts.values():
-			data.append((d.name, d.population, d.median_income, d.unemployed, d.unemployment_rate * 100))
+			data.append((d.name, d.population, d.income, d.unemployed, d.unemployment_rate * 100))
 		data.sort(key=lambda t: t[0])
 		return data
 	
@@ -75,7 +75,7 @@ class District:
 		self.name = ''
 		self.households = 0
 		self.population = 0
-		self.median_income = 0
+		self.income = 0
 		self.unemployed = 0
 		self.unemployment_rate = 0
 
@@ -105,11 +105,13 @@ class District:
 		self.starting_unemployment(level)
 		
 		if level == 'poor':
-			self.median_income = 12000 + randint(1000, 7000) + randint(1000, 6000)
+			#self.income = 12000 + randint(1000, 7000) + randint(1000, 6000)
+			self.income = 5000 + randint(1000, 5000) + randint(4000, 10000)
 		elif level == 'middle':
-			self.median_income = 30000 + randint(5000, 10000) + randint(2000, 7000)
+			#self.income = 30000 + randint(5000, 10000) + randint(2000, 7000)
+			self.income = 10000 + randint(8000, 10000) + randint(2000, 20000)
 		elif level == 'rich':
-			self.median_income = 60000 + randint(5000, 10000) + randint(10000, 40000)
-		return self.median_income
+			self.income = 35000 + randint(3000, 20000) + randint(2000, 45000)
+		return self.income
 		
 		

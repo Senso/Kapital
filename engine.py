@@ -57,7 +57,7 @@ class Engine:
 		
 		# Generate AI companies
 		for i in xrange(0, randrange(10, 20)):
-			b = Business()
+			b = Business(self)
 			b.starting_funds()
 			b.randomize_production(self.industries, self.resources)
 			b.generate_name()
