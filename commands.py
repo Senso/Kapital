@@ -33,6 +33,9 @@ class Commands:
 		
 		self.game.screen.update_main_win(text)
 		
+	def show_businesses(self, screen):
+		self.game.display_biz_menu()
+		
 	def sort_pop(self, screen):
 		if self.game.player.order_mode == 'pop_desc':
 			self.game.player.order_mode = 'pop_asc'
