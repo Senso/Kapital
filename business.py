@@ -1,7 +1,8 @@
 from random import randrange, choice
 
 class Business:
-	def __init__(self):
+	def __init__(self, game):
+		self.game = game
 		self.money = 0
 		self.name = ''
 		self.suppliers = {}
@@ -23,6 +24,14 @@ class Business:
 		self.prod_data = {industry: ind[industry]}
 		self.producing = self.prod_data[industry]['produces'][0]
 		self.resource_data = res[self.producing]
+		
+	def hire_employees(self):
+		d = self.game.city.districts[self.district]
+		biz = self.prod_data.values[0]
+		needed = biz['max_employees'] - self.employees
+		if d.unemployed - needed >= 0:
+			d.unemployed -= needed
+			self.employees += needed
 		
 	def end_turn(self):
 		pass
