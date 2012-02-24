@@ -23,6 +23,7 @@ class Commands:
 		self.game.display_main_menu()
 		
 	def show_city(self, screen):
+		self.game.update_options(self.game.menus['city_overview_menu'])
 		self.game.display_city_menu()
 		
 	def show_corporation(self, screen):
@@ -34,6 +35,7 @@ class Commands:
 		self.game.screen.update_main_win(text)
 		
 	def show_businesses(self, screen):
+		self.game.update_options(self.game.menus['businesses_view_menu'])
 		self.game.display_biz_menu()
 		
 	def sort_pop(self, screen):

@@ -62,12 +62,11 @@ class Engine:
 			b.randomize_production(self.industries, self.resources)
 			b.generate_name()
 			b.district = choice(self.city.districts.keys())
+			#self.city.districts[b.district].companies.append(b)
 			self.ai_companies.append(b)
 		
-		print self.ai_companies
-		print
-		for i in self.ai_companies:
-			print i.name, i.money, i.producing, i.district
+		#for i in self.ai_companies:
+		#	print i.name, i.money, i.producing, i.district
 			
 		self.player.money = 1000000
 
@@ -84,6 +83,13 @@ class Engine:
 			districts)
 
 		self.update_options(self.menus['city_overview_menu'])
+		
+	def display_biz_menu(self, district=None):
+		self.ai_companies
+		self.screen.display_column_data("%s City\n\n" % self.city.name,
+			['Business', 'Cash', '']
+			)
+		
 		
 	def end_turn(self):
 		self.player.end_turn()

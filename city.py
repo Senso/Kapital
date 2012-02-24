@@ -78,6 +78,7 @@ class District:
 		self.income = 0
 		self.unemployed = 0
 		self.unemployment_rate = 0
+		#self.businesses = []
 
 	def generate_name(self):
 		names = json.load(open('data/districts.cfg'))

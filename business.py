@@ -32,6 +32,10 @@ class Business:
 		if d.unemployed - needed >= 0:
 			d.unemployed -= needed
 			self.employees += needed
+		else:
+			will_hire = needed - d.unemployed
+			d.unemployed -= will_hire
+			self.employees += will_hire
 		
 	def end_turn(self):
 		pass
